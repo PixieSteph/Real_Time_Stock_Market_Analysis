@@ -1,34 +1,48 @@
 # Stock Market Data Pipeline
 
-This project is a stock market data pipeline built with Python. It connects to a stock market API, extracts stock data, and saves the results for analysis.
+This project is a stock market data pipeline built with Python. It connects to a stock market API, extracts stock data, streams the data through Kafka, processes it with Spark, stores it in PostgreSQL, and prepares it for visualization in Power BI.
+
+The project was built to practice core data engineering concepts such as API integration, containerization, distributed processing, and database storage.
+
+---
+
+## Project Architecture
+
+The diagram below shows the overall data pipeline architecture used in this project.
+
+![Stock Market Pipeline Architecture](Real-Time%20Stock%20Market%20Insights_Data%20Pipeline.png)
 
 ---
 
 ## Project Overview
 
-The purpose of this project is to practice building a simple data engineering pipeline from start to finish.
+The purpose of this project is to practice building a modern data engineering pipeline from start to finish.
 
 The pipeline follows these steps:
 
-1. Set up the project folder
-2. Connect the folder to GitHub
-3. Create a Python virtual environment
-4. Install the required Python packages
-5. Connect to the stock market API
-6. Extract stock data
-7. Save the data locally
-8. Add Docker support for running the project in a container
+1. Connect to the stock market API using Python
+2. Extract stock market data
+3. Stream the data through Kafka
+4. Process the data using Spark
+5. Store the data in PostgreSQL
+6. Prepare the data for reporting and visualization in Power BI
+7. Run all services using Docker Compose
 
 ---
 
-## Tech Stack
+## Technologies Used
 
 - Python
-- Requests
+- Apache Kafka
+- Apache Spark
+- PostgreSQL
 - Docker
-- Git
+- Docker Compose
+- Power BI
+- Requests Library
 - GitHub
 - VS Code
+- Windows
 
 ---
 
@@ -44,10 +58,13 @@ stock-market-data-pipeline/
 ├── extract.py
 ├── main.py
 │
-├── requirements.txt
+├── Dockerfile
 ├── compose.yml
+├── requirements.txt
 ├── README.md
-└── .gitignore
+├── .gitignore
+│
+└── Real-Time Stock Market Insights_Data Pipeline.png
 ```
 
 ---
@@ -92,7 +109,18 @@ venv\Scripts\activate
 
 ---
 
-## Step 5: Install Required Packages
+## Step 5: Create the Requirements File
+
+I created a `requirements.txt` file and added the required packages.
+
+```txt
+requests
+python-dotenv
+```
+
+---
+
+## Step 6: Install Required Packages
 
 I installed the required Python packages using:
 
@@ -102,7 +130,7 @@ pip install -r requirements.txt
 
 ---
 
-## Step 6: Create the Environment File
+## Step 7: Create the Environment File
 
 I created a `.env` file in the project folder to store my API key.
 
@@ -114,9 +142,9 @@ The `.env` file is not pushed to GitHub because it contains private information.
 
 ---
 
-## Step 7: Configure the Project
+## Step 8: Configure the Project
 
-The `config.py` file stores the project configuration and stock symbols used for the API requests.
+The `config.py` file stores the project configuration and stock symbols used for API requests.
 
 Example:
 
@@ -126,7 +154,7 @@ stocks = ["TSLA", "MSFT", "GOOGL"]
 
 ---
 
-## Step 8: Run the Extraction Script
+## Step 9: Run the Extraction Script
 
 I ran the extraction script from the terminal.
 
@@ -138,7 +166,7 @@ The script connects to the stock market API and retrieves stock market data.
 
 ---
 
-## Step 9: Run the Main File
+## Step 10: Run the Main File
 
 I used the `main.py` file to run the overall project workflow.
 
@@ -148,39 +176,28 @@ python main.py
 
 ---
 
-## Step 10: Save the Data
+## Step 11: Create the Docker Compose File
 
-The extracted stock data is saved locally inside the `data/raw` folder.
+I created a `compose.yml` file to run all project services together.
 
----
+The services include:
 
-## Step 11: Run the Project with Docker
-
-I created Docker files so the project can run in a container.
-
-To build the Docker image:
-
-```bash
-docker build -t stock-pipeline .
-```
-
-To run the container:
-
-```bash
-docker run stock-pipeline
-```
+- Python application
+- Kafka
+- Spark
+- PostgreSQL
 
 ---
 
-## Step 12: Run with Docker Compose
+## Step 12: Run Docker Compose
 
-I used `compose.yml` to run the project with Docker Compose.
+To start all services:
 
 ```bash
-docker compose -f compose.yml up
+docker compose up
 ```
 
-To stop the container:
+To stop all services:
 
 ```bash
 docker compose down
@@ -188,36 +205,54 @@ docker compose down
 
 ---
 
-## Usage Example
+## Docker Services
 
-The project can collect stock data for selected companies.
+### Python Application
 
-Example stock symbols:
+Runs the stock market extraction pipeline.
 
-```python
-stocks = ["TSLA", "MSFT", "GOOGL"]
-```
+### Apache Kafka
+
+Streams stock market data between services.
+
+### Apache Spark
+
+Processes and handles distributed data workloads.
+
+### PostgreSQL
+
+Stores the stock market data for analysis and reporting.
 
 ---
 
 ## Features
 
-- Automated stock data extraction
-- API integration using Python
-- Docker container support
-- GitHub version control
-- Beginner-friendly project structure
-- Virtual environment setup
+- API data extraction using Python
+- Distributed streaming with Kafka
+- Data processing using Spark
+- PostgreSQL database integration
+- Docker containerization
+- Power BI reporting workflow
+- Beginner-friendly data engineering project structure
 
 ---
 
 ## Troubleshooting
 
-### API Premium Endpoint Error
+### Docker Not Found Error
 
-While testing the project, I received a message that some Alpha Vantage endpoints require a premium subscription.
+If Docker commands are not recognized:
 
-To fix this, I updated the project to use free API endpoints where possible.
+1. Install Docker Desktop
+2. Restart the computer
+3. Open Docker Desktop
+4. Wait for the Docker engine to start
+
+Verify installation using:
+
+```bash
+docker --version
+```
 
 ---
 
@@ -225,14 +260,16 @@ To fix this, I updated the project to use free API endpoints where possible.
 
 In the future, I would like to improve this project by:
 
-- Adding PostgreSQL for database storage
-- Scheduling the pipeline with Apache Airflow
-- Creating a Power BI dashboard
+- Adding real-time streaming
+- Automating workflows with Apache Airflow
 - Deploying the project to the cloud
-- Adding more error handling and logging
+- Adding better logging and monitoring
+- Expanding Power BI dashboards
 
 ---
 
 ## Author
 
-Igho Ogbobine
+### Igho Ogbobine
+
+Data Engineering Project
