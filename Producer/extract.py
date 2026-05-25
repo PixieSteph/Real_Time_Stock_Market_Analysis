@@ -15,8 +15,7 @@ def connect_to_api():
             "symbol": f"{stocks[stock]}",
             "outputsize": "compact",
             "interval": "5min",
-            "datatype": "json",
-            "apikey": "API_KEY"
+            "datatype": "json"
         }
 
         try:

@@ -1,27 +1,25 @@
-# Stock Market Data Pipeline
+# Real-Time Stock Market Insights
 
-This project is a stock market data pipeline built with Python. It connects to a stock market API, extracts stock data, streams the data through Kafka, processes it with Spark, stores it in PostgreSQL, and prepares it for visualization in Power BI.
+This project is a real-time stock market data pipeline built with Python. The pipeline extracts stock market data from an API, streams the data using Kafka, processes it with Spark, stores it in PostgreSQL, and prepares it for visualization in Power BI.
 
-The project was built to practice core data engineering concepts such as API integration, containerization, distributed processing, and database storage.
+The project was created to practice modern data engineering concepts such as API integration, distributed systems, streaming pipelines, containerization, and database management.
 
 ---
 
 ## Project Architecture
 
-The diagram below shows the overall data pipeline architecture used in this project.
+The diagram below shows the architecture of the project pipeline.
 
-![Stock Market Pipeline Architecture](Real-Time%20Stock%20Market%20Insights_Data%20Pipeline.png)
+![Project Architecture](Real-Time%20Stock%20Market%20Insights_Data%20Pipeline.png)
 
 ---
 
 ## Project Overview
 
-The purpose of this project is to practice building a modern data engineering pipeline from start to finish.
-
 The pipeline follows these steps:
 
 1. Connect to the stock market API using Python
-2. Extract stock market data
+2. Extract real-time stock market data
 3. Stream the data through Kafka
 4. Process the data using Spark
 5. Store the data in PostgreSQL
@@ -49,39 +47,40 @@ The pipeline follows these steps:
 ## Project Structure
 
 ```bash
-stock-market-data-pipeline/
+REAL_TIME_STOCK_MARKET_INSIGHTS/
 │
-├── data/
-│   └── raw/
+├── Producer/
+│   ├── __pycache__/
+│   ├── config.py
+│   ├── extract.py
+│   └── main.py
 │
-├── config.py
-├── extract.py
-├── main.py
-│
-├── Dockerfile
-├── compose.yml
-├── requirements.txt
-├── README.md
+├── venv/
+├── .env
 ├── .gitignore
-│
-└── Real-Time Stock Market Insights_Data Pipeline.png
+├── compose.yml
+├── Dockerfile
+├── git.txt
+├── README.md
+├── Real-Time Stock Market Insights_Data Pipeline.png
+└── requirements.txt
 ```
 
 ---
 
 ## Step 1: Open the Project Folder
 
-I opened my existing project folder in VS Code.
+I opened the project folder in VS Code.
 
 ```bash
-cd stock-market-data-pipeline
+cd REAL_TIME_STOCK_MARKET_INSIGHTS
 ```
 
 ---
 
 ## Step 2: Confirm GitHub Connection
 
-Since my folder was already connected to GitHub, I confirmed the remote connection using:
+Since the folder was already connected to GitHub, I confirmed the remote connection using:
 
 ```bash
 git remote -v
@@ -91,7 +90,7 @@ git remote -v
 
 ## Step 3: Create a Virtual Environment
 
-I created a virtual environment for the project using:
+I created a Python virtual environment using:
 
 ```bash
 python -m venv venv
@@ -132,19 +131,19 @@ pip install -r requirements.txt
 
 ## Step 7: Create the Environment File
 
-I created a `.env` file in the project folder to store my API key.
+I created a `.env` file in the project folder to store the API key.
 
 ```env
 API_KEY=your_api_key_here
 ```
 
-The `.env` file is not pushed to GitHub because it contains private information.
+The `.env` file is excluded from GitHub using `.gitignore` because it contains private information.
 
 ---
 
 ## Step 8: Configure the Project
 
-The `config.py` file stores the project configuration and stock symbols used for API requests.
+The `config.py` file stores project configurations and stock symbols used for API requests.
 
 Example:
 
@@ -159,7 +158,7 @@ stocks = ["TSLA", "MSFT", "GOOGL"]
 I ran the extraction script from the terminal.
 
 ```bash
-python extract.py
+python Producer\extract.py
 ```
 
 The script connects to the stock market API and retrieves stock market data.
@@ -171,7 +170,7 @@ The script connects to the stock market API and retrieves stock market data.
 I used the `main.py` file to run the overall project workflow.
 
 ```bash
-python main.py
+python Producer\main.py
 ```
 
 ---
@@ -183,8 +182,8 @@ I created a `compose.yml` file to run all project services together.
 The services include:
 
 - Python application
-- Kafka
-- Spark
+- Apache Kafka
+- Apache Spark
 - PostgreSQL
 
 ---
@@ -221,19 +220,19 @@ Processes and handles distributed data workloads.
 
 ### PostgreSQL
 
-Stores the stock market data for analysis and reporting.
+Stores stock market data for analysis and reporting.
 
 ---
 
 ## Features
 
-- API data extraction using Python
-- Distributed streaming with Kafka
-- Data processing using Spark
+- Real-time stock market API integration
+- Kafka streaming pipeline
+- Spark data processing
 - PostgreSQL database integration
 - Docker containerization
 - Power BI reporting workflow
-- Beginner-friendly data engineering project structure
+- Beginner-friendly data engineering project
 
 ---
 
@@ -260,10 +259,10 @@ docker --version
 
 In the future, I would like to improve this project by:
 
-- Adding real-time streaming
+- Adding more stock market APIs
 - Automating workflows with Apache Airflow
 - Deploying the project to the cloud
-- Adding better logging and monitoring
+- Adding better monitoring and logging
 - Expanding Power BI dashboards
 
 ---
@@ -272,4 +271,4 @@ In the future, I would like to improve this project by:
 
 ### Igho Ogbobine
 
-Data Engineering Project
+Real-Time Stock Market Insights Project

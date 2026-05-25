@@ -1,9 +1,10 @@
 import logging
 
-url = "https://www.alphavantage.co/query"
+url = "https://alpha-vantage.p.rapidapi.com/query"
 
 headers = {
-    "User-Agent": "Mozilla/5.0"
+    "x-rapidapi-key": "e1aa54ef16mshbcc7e01fea5c9a4p19910ajsna13fa7823f41",
+    "x-rapidapi-host": "alpha-vantage.p.rapidapi.com"
 }
 
 logger = logging.getLogger(__name__)

@@ -1,47 +1,32 @@
-version: '3.9'
-
 services:
-
-  stock-pipeline:
+  python:
     build: .
-    container_name: stock_market_pipeline
-    depends_on:
-      - kafka
-      - spark
-      - postgres
-    env_file:
-      - .env
+    container_name: stock-python
     volumes:
       - .:/app
-    command: python main.py
+    working_dir: /app
+    env_file:
+      - .env
+    command: python Producer/main.py
 
   kafka:
-    image: apache/kafka:latest
-    container_name: kafka
+    image: apache/kafka:3.7.0
+    container_name: stock-kafka
     ports:
       - "9092:9092"
 
   spark:
-    image: bitnami/spark:latest
-    container_name: spark
+    image: apache/spark:3.5.1
+    container_name: stock-spark
     ports:
       - "8080:8080"
-      - "7077:7077"
-    environment:
-      - SPARK_MODE=master
 
   postgres:
     image: postgres:15
-    container_name: postgres_db
-    restart: always
+    container_name: stock-postgres
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: stock_data
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: stock_market
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
