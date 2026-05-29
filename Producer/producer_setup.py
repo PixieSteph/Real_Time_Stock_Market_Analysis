@@ -7,7 +7,7 @@ topic = "stock_analysis"
 
 def init_producer():
     producer = KafkaProducer(
-        bootstrap_servers=['127.0.0.1:9094'],
+        bootstrap_servers=["localhost:9094"],
         value_serializer=lambda v: json.dumps(v).encode('utf-8')
     )
     
