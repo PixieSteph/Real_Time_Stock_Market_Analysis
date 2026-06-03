@@ -50,23 +50,18 @@ The diagram below illustrates the end-to-end architecture of the project.
 
 ```text
 REAL_TIME_STOCK_MARKET_INSIGHTS/
+
+REAL_TIME_STOCK_MARKET_INSIGHTS/
 │
 ├── Producer/
-│   ├── config.py
-│   ├── extract.py
-│   ├── main.py
-│   └── producer_setup.py
-│
 ├── Consumer/
-│   ├── consumer.py
-│   └── Dockerfile
-│
-├── compose.yml
-├── requirements.txt
+├── images/
+│   ├── architecture.png
+│   ├── kafka_ui.png
+│   └── postgres_results.png
 ├── README.md
-├── .env
-├── .gitignore
-└── Real-Time Stock Market Insights_Data Pipeline.png
+├── compose.yml
+└── requirements.txt
 ```
 
 ---
@@ -203,6 +198,9 @@ Sample result:
 | Symbol | Open     | High   | Low    | Close   |
 | ------ | -------- | ------ | ------ | ------- |
 | TSLA   | 421.0632 | 423.66 | 420.94 | 422.569 |
+
+
+![Project Architecture](images/postgress_results.png)
 
 ---
 
