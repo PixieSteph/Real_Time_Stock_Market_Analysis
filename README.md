@@ -1,202 +1,150 @@
 # Real-Time Stock Market Insights
 
-This project is a real-time stock market data pipeline built with Python. The pipeline extracts stock market data from an API, streams the data using Kafka, processes it with Spark, stores it in PostgreSQL, and prepares it for visualization in Power BI.
+## Overview
 
-The project was created to practice modern data engineering concepts such as API integration, distributed systems, streaming pipelines, containerization, and database management.
+Real-Time Stock Market Insights is an end-to-end streaming data engineering project designed to demonstrate modern data engineering concepts and tools.
+
+The project extracts real-time stock market data from the Alpha Vantage API, streams the data through Apache Kafka, processes the data using Apache Spark Structured Streaming, stores the results in PostgreSQL, and prepares the data for future reporting and visualization in Power BI.
+
+This project was built to gain hands-on experience with distributed systems, streaming pipelines, containerization, and real-time data processing.
 
 ---
 
 ## Project Architecture
 
-The diagram below shows the architecture of the project pipeline.
+The diagram below illustrates the end-to-end architecture of the project.
 
-![Project Architecture](Real-Time%20Stock%20Market%20Insights_Data%20Pipeline.png)
+![Project Architecture](images/architecture.png)
 
----
+### Data Flow
 
-## Project Overview
-
-The pipeline follows these steps:
-
-1. Connect to the stock market API using Python
-2. Extract real-time stock market data
-3. Stream the data through Kafka
-4. Process the data using Spark
-5. Store the data in PostgreSQL
-6. Prepare the data for reporting and visualization in Power BI
-7. Run all services using Docker Compose
+1. Python extracts stock market data from the Alpha Vantage API.
+2. The Kafka Producer publishes stock events to the Kafka topic `stock_analysis`.
+3. Apache Kafka acts as the streaming layer for real-time ingestion.
+4. Apache Spark Structured Streaming subscribes to the Kafka topic.
+5. Spark processes and transforms incoming stock records.
+6. Processed records are written to PostgreSQL using JDBC.
+7. PostgreSQL serves as the analytical database for future Power BI reporting and dashboard development.
 
 ---
 
 ## Technologies Used
 
-- Python
-- Apache Kafka
-- Apache Spark
-- PostgreSQL
-- Docker
-- Docker Compose
-- Power BI
-- Requests Library
-- GitHub
-- VS Code
-- Windows
+* Python
+* Apache Kafka
+* Apache Spark Structured Streaming
+* PostgreSQL
+* Docker
+* Docker Compose
+* pgAdmin
+* Power BI
+* Requests Library
+* Git
+* GitHub
+* VS Code
+* Windows
 
 ---
 
 ## Project Structure
 
-```bash
+```text
 REAL_TIME_STOCK_MARKET_INSIGHTS/
 │
 ├── Producer/
-│   ├── __pycache__/
 │   ├── config.py
 │   ├── extract.py
-│   └── main.py
+│   ├── main.py
+│   └── producer_setup.py
 │
-├── venv/
+├── Consumer/
+│   ├── consumer.py
+│   └── Dockerfile
+│
+├── compose.yml
+├── requirements.txt
+├── README.md
 ├── .env
 ├── .gitignore
-├── compose.yml
-├── Dockerfile
-├── git.txt
-├── README.md
-├── Real-Time Stock Market Insights_Data Pipeline.png
-└── requirements.txt
+└── Real-Time Stock Market Insights_Data Pipeline.png
 ```
 
 ---
 
-## Step 1: Open the Project Folder
+## Key Accomplishments
 
-I opened the project folder in VS Code.
+* Built a real-time stock market data pipeline using Python, Kafka, Spark Structured Streaming, and PostgreSQL.
+* Implemented API integration with Alpha Vantage to extract stock market data.
+* Configured Apache Kafka as the streaming platform for real-time data ingestion.
+* Developed a Spark Structured Streaming consumer to process stock market events.
+* Persisted streaming data into PostgreSQL using JDBC integration.
+* Containerized all services using Docker and Docker Compose.
+* Successfully streamed and stored live stock market data records in PostgreSQL.
+* Designed a scalable architecture that supports future reporting and analytics in Power BI.
+
+---
+
+## Features
+
+* Real-time stock market data ingestion
+* Kafka streaming architecture
+* Spark Structured Streaming processing
+* PostgreSQL data storage
+* Dockerized deployment
+* Scalable architecture
+* Future Power BI integration
+* Beginner-friendly data engineering project
+
+---
+
+## Setup Instructions
+
+### Clone the Repository
 
 ```bash
+git clone <repository-url>
 cd REAL_TIME_STOCK_MARKET_INSIGHTS
 ```
 
----
-
-## Step 2: Confirm GitHub Connection
-
-Since the folder was already connected to GitHub, I confirmed the remote connection using:
-
-```bash
-git remote -v
-```
-
----
-
-## Step 3: Create a Virtual Environment
-
-I created a Python virtual environment using:
+### Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
----
+### Activate the Virtual Environment
 
-## Step 4: Activate the Virtual Environment
-
-I activated the virtual environment on Windows using:
+Windows:
 
 ```bash
 venv\Scripts\activate
 ```
 
----
-
-## Step 5: Create the Requirements File
-
-I created a `requirements.txt` file and added the required packages.
-
-```txt
-requests
-python-dotenv
-```
-
----
-
-## Step 6: Install Required Packages
-
-I installed the required Python packages using:
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### Configure Environment Variables
 
-## Step 7: Create the Environment File
+Create a `.env` file:
 
-I created a `.env` file in the project folder to store the API key.
-
-```env
+```text
 API_KEY=your_api_key_here
 ```
 
-The `.env` file is excluded from GitHub using `.gitignore` because it contains private information.
-
 ---
 
-## Step 8: Configure the Project
+## Running the Project
 
-The `config.py` file stores project configurations and stock symbols used for API requests.
-
-Example:
-
-```python
-stocks = ["TSLA", "MSFT", "GOOGL"]
-```
-
----
-
-## Step 9: Run the Extraction Script
-
-I ran the extraction script from the terminal.
+### Start Docker Services
 
 ```bash
-python Producer\extract.py
+docker compose up --build
 ```
 
-The script connects to the stock market API and retrieves stock market data.
-
----
-
-## Step 10: Run the Main File
-
-I used the `main.py` file to run the overall project workflow.
-
-```bash
-python Producer\main.py
-```
-
----
-
-## Step 11: Create the Docker Compose File
-
-I created a `compose.yml` file to run all project services together.
-
-The services include:
-
-- Python application
-- Apache Kafka
-- Apache Spark
-- PostgreSQL
-
----
-
-## Step 12: Run Docker Compose
-
-To start all services:
-
-```bash
-docker compose up
-```
-
-To stop all services:
+### Stop Docker Services
 
 ```bash
 docker compose down
@@ -206,69 +154,108 @@ docker compose down
 
 ## Docker Services
 
-### Python Application
+### Python Producer
 
-Runs the stock market extraction pipeline.
+Responsible for extracting stock market data and publishing messages to Kafka.
 
 ### Apache Kafka
 
-Streams stock market data between services.
+Acts as the streaming platform for real-time message delivery.
 
 ### Apache Spark
 
-Processes and handles distributed data workloads.
+Processes and transforms streaming stock market data.
 
 ### PostgreSQL
 
-Stores stock market data for analysis and reporting.
+Stores processed stock market records.
+
+### pgAdmin
+
+Provides a graphical interface for managing PostgreSQL.
 
 ---
 
-## Features
+## Sample Streaming Output
 
-- Real-time stock market API integration
-- Kafka streaming pipeline
-- Spark data processing
-- PostgreSQL database integration
-- Docker containerization
-- Power BI reporting workflow
-- Beginner-friendly data engineering project
-
----
-
-## Troubleshooting
-
-### Docker Not Found Error
-
-If Docker commands are not recognized:
-
-1. Install Docker Desktop
-2. Restart the computer
-3. Open Docker Desktop
-4. Wait for the Docker engine to start
-
-Verify installation using:
-
-```bash
-docker --version
+```text
++-------------------+------+------+--------+-------+------+
+|date               |high  |low   |open    |close  |symbol|
++-------------------+------+------+--------+-------+------+
+|2026-06-02 15:40:00|423.66|420.94|421.0632|422.569|TSLA  |
++-------------------+------+------+--------+-------+------+
 ```
+
+---
+
+## PostgreSQL Results
+
+The processed stock market data is successfully stored in PostgreSQL through Spark Structured Streaming.
+
+Example query:
+
+```sql
+SELECT * FROM stock_prices;
+```
+
+Sample result:
+
+| Symbol | Open     | High   | Low    | Close   |
+| ------ | -------- | ------ | ------ | ------- |
+| TSLA   | 421.0632 | 423.66 | 420.94 | 422.569 |
+
+---
+
+## Challenges Solved
+
+During the development of this project, several real-world data engineering challenges were addressed, including:
+
+* Kafka broker connectivity issues
+* Docker networking configuration
+* Spark Worker registration
+* Kafka topic management
+* Schema and data type conversion
+* Spark Structured Streaming checkpoints
+* PostgreSQL JDBC integration
+* Container orchestration with Docker Compose
+
+These troubleshooting experiences provided valuable hands-on exposure to real-world data engineering workflows.
 
 ---
 
 ## Future Improvements
 
-In the future, I would like to improve this project by:
+Future enhancements may include:
 
-- Adding more stock market APIs
-- Automating workflows with Apache Airflow
-- Deploying the project to the cloud
-- Adding better monitoring and logging
-- Expanding Power BI dashboards
+* Additional stock market APIs
+* Historical data storage and analysis
+* Apache Airflow orchestration
+* Cloud deployment (AWS, Azure, or GCP)
+* Data quality monitoring
+* Logging and alerting
+* Power BI dashboards and analytics
+* CI/CD implementation using GitHub Actions
+
+---
+
+## Results
+
+Successfully implemented an end-to-end real-time streaming data pipeline using Python, Apache Kafka, Apache Spark Structured Streaming, PostgreSQL, and Docker.
+
+The solution continuously ingests stock market data, processes streaming events, and stores them in PostgreSQL for future analytics and reporting.
 
 ---
 
 ## Author
 
-### Igho Ogbobine
+**Igho Ogbobine**
 
-Real-Time Stock Market Insights Project
+Manager, Data Operations | Data Engineering Enthusiast
+
+GitHub: @PixieSteph
+
+---
+
+## About
+
+This project demonstrates the implementation of a real-time data engineering pipeline using Python, Kafka, Spark Structured Streaming, PostgreSQL, Docker, and Power BI.
