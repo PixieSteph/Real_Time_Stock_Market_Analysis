@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col
-from pyspark.sql.types import StructType, StructField, StringType, DoubleType
+from pyspark.sql.types import StructType, StructField, StringType, DoubleType, TimestampType
 import os
 
 
@@ -32,7 +32,7 @@ spark = (SparkSession.builder
 
 df = (spark.readStream.format("kafka")
       .option("kafka.bootstrap.servers", "kafka:9092")
-      .option("subscribe", "stock-data")
+      .option("subscribe", "stock_analysis")
       .option("startingOffsets", "latest")
       .option('failOnDataLoss', 'false')  
       .load()
@@ -47,22 +47,33 @@ parsed_df = df.selectExpr( 'CAST(value AS STRING)')\
               
 
 processed_df = parsed_df.select(
-    col("date").cast(TimeStampType()).alias("date"),
-    col("hifh").alias("high"),
-    col("low").alias("low"),  
-    col("open").alias("open"),
-    col("close").alias("close"),
-    col("symbol").alias("symbol")
-)              
+    col("date").cast(TimestampType()).alias("date"),
+    col("symbol").alias("symbol"),
+    col("open").cast("double").alias("open"),
+    col("high").cast("double").alias("high"),
+    col("low").cast("double").alias("low"),
+    col("close").cast("double").alias("close")
+)            
 
 
-query = (processed_df.writeStream \
+def write_to_postgres(batch_df, batch_id):
+    batch_df.write \
+        .format("jdbc") \
+        .option("url", "jdbc:postgresql://postgres:5432/stock_market") \
+        .option("dbtable", "stock_prices") \
+        .option("user", "admin") \
+        .option("password", "admin123") \
+        .option("driver", "org.postgresql.Driver") \
+        .mode("append") \
+        .save()
+
+    print(f"Batch {batch_id} written to PostgreSQL")
+
+
+query = processed_df.writeStream \
     .outputMode("append") \
-    .format("console") \
+    .foreachBatch(write_to_postgres) \
     .option("checkpointLocation", checkpoint_dir) \
-    .options(truncate=False) \
     .start()
-)
-
 
 query.awaitTermination()

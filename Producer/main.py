@@ -14,10 +14,10 @@ def main():
         result = {
             "date": stock["date"],
             "symbol": stock["symbol"],
-            "open": stock["open"],
-            "low": stock["low"],
-            "high": stock["high"],
-            "close": stock["close"]
+            "open": float(stock["open"]),
+            "low": float(stock["low"]),
+            "high": float(stock["high"]),
+            "close": float(stock["close"])
         }
         
         producer.send(topic, result)

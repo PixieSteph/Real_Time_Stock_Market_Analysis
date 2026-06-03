@@ -50,6 +50,19 @@ services:
       - "7077:7077"
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
 
+
+  spark-worker:
+    image: spark:3.5.1-python3
+    container_name: spark-worker
+    depends_on:
+      - spark-master
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    environment:
+      SPARK_WORKER_CORES: 1
+      SPARK_WORKER_MEMORY: 1g
+    ports:
+      - "8082:8081"  
+
   consumer:
     build:
       context: ./Consumer
